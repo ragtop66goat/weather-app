@@ -2,13 +2,13 @@ const request = require ('postman-request')
 
 const forecast = (longitude, latitude, callback) => {
     const url = 'http://api.weatherstack.com/current?access_key=07733019a857d0f605c3bb6f1b5a1359&query=' + latitude + ',' + longitude + '&units=f'
-    request({url: url, json: true}, (error, response) => {
+    request({url, json: true}, (error, {body}) => {
         if (error) {
             callback('Uable to connect to weather services!', undefined)
-        }else if(response.body.error) {
+        }else if(body.error) {
             callback('Uable to find that location!', undefined)
         }else {
-            callback(undefined, response.body.current.weather_descriptions[0]+'. It is currently ' + response.body.current.temperature+ ' degrees out. It feels like '+ response.body.current.feelslike + ' degrees out.')
+            callback(undefined, body.current.weather_descriptions[0]+'. It is currently ' + body.current.temperature+ ' degrees out. It feels like '+ body.current.feelslike + ' degrees out.')
         }
     })
 }
